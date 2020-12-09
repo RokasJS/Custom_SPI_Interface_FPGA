@@ -12,7 +12,8 @@ architecture tb of tb_MainSPI is
               btnL    : in std_logic;
               reset_n : in std_logic;
               btnD    : in std_logic;
-              spi_bit : out std_logic);
+              spi_bit : out std_logic;
+              spi_clock : out std_logic);
     end component;
 
     signal clk     : std_logic;
@@ -21,7 +22,7 @@ architecture tb of tb_MainSPI is
     signal reset_n : std_logic;
     signal btnD    : std_logic;
     signal spi_bit : std_logic;
-
+    signal spi_clock : std_logic;
 begin
 
     dut : MainSPI
@@ -30,6 +31,7 @@ begin
               btnL    => btnL,
               reset_n => reset_n,
               btnD    => btnD,
+              spi_clock => spi_clock,
               spi_bit => spi_bit);
 
     stimuli : process
@@ -54,7 +56,7 @@ begin
             reset_n <= '1';
             btnL <= '1';
         end if; 
-        if i = 64 then
+        if i = 63 then
             reset_n <= '1';
             btnL <= '0';
         end if; 

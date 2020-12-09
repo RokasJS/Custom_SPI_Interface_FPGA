@@ -1,6 +1,6 @@
 webtalk_init -webtalk_dir C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.sim/sim_1/behav/xsim/xsim.dir/tb_MainSPI_behav/webtalk/
 webtalk_register_client -client project
-webtalk_add_data -client project -key date_generated -value "Wed Dec  9 16:20:15 2020" -context "software_version_and_target_device"
+webtalk_add_data -client project -key date_generated -value "Wed Dec  9 16:40:09 2020" -context "software_version_and_target_device"
 webtalk_add_data -client project -key product_version -value "XSIM v2019.1.3 (64-bit)" -context "software_version_and_target_device"
 webtalk_add_data -client project -key build_version -value "2644227" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_platform -value "WIN64" -context "software_version_and_target_device"
@@ -14,7 +14,7 @@ webtalk_add_data -client project -key target_package -value "not_applicable" -co
 webtalk_add_data -client project -key target_speed -value "not_applicable" -context "software_version_and_target_device"
 webtalk_add_data -client project -key random_id -value "19b738a9-5a0a-40ba-b1f3-b9037553f13b" -context "software_version_and_target_device"
 webtalk_add_data -client project -key project_id -value "cacf29f299fa43d98d03083fb7a73919" -context "software_version_and_target_device"
-webtalk_add_data -client project -key project_iteration -value "57" -context "software_version_and_target_device"
+webtalk_add_data -client project -key project_iteration -value "71" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_name -value "Windows Server 2016 or Windows 10" -context "user_environment"
 webtalk_add_data -client project -key os_release -value "major release  (build 9200)" -context "user_environment"
 webtalk_add_data -client project -key cpu_name -value "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz" -context "user_environment"
@@ -26,7 +26,7 @@ webtalk_add_data -client xsim -key Command -value "xsim" -context "xsim\\command
 webtalk_add_data -client xsim -key trace_waveform -value "true" -context "xsim\\usage"
 webtalk_add_data -client xsim -key runtime -value "1 us" -context "xsim\\usage"
 webtalk_add_data -client xsim -key iteration -value "2" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Simulation_Time -value "0.01_sec" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Simulation_Memory -value "5864_KB" -context "xsim\\usage"
-webtalk_transmit -clientid 1410381364 -regid "" -xml C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.sim/sim_1/behav/xsim/xsim.dir/tb_MainSPI_behav/webtalk/usage_statistics_ext_xsim.xml -html C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.sim/sim_1/behav/xsim/xsim.dir/tb_MainSPI_behav/webtalk/usage_statistics_ext_xsim.html -wdm C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.sim/sim_1/behav/xsim/xsim.dir/tb_MainSPI_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
+webtalk_add_data -client xsim -key Simulation_Time -value "0.03_sec" -context "xsim\\usage"
+webtalk_add_data -client xsim -key Simulation_Memory -value "5808_KB" -context "xsim\\usage"
+webtalk_transmit -clientid 1624642350 -regid "" -xml C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.sim/sim_1/behav/xsim/xsim.dir/tb_MainSPI_behav/webtalk/usage_statistics_ext_xsim.xml -html C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.sim/sim_1/behav/xsim/xsim.dir/tb_MainSPI_behav/webtalk/usage_statistics_ext_xsim.html -wdm C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.sim/sim_1/behav/xsim/xsim.dir/tb_MainSPI_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
 webtalk_terminate

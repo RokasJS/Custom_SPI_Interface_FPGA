@@ -11,7 +11,8 @@ port (
     btnL : in std_logic;
     reset_n : in std_logic;
     btnD : in std_logic;
-    spi_bit : out std_logic
+    spi_bit : out std_logic;
+    spi_clock : out std_logic
     );
 end MainSPI;
 
@@ -42,8 +43,12 @@ begin
             end case;
         else
             spi_bit <= '0';
+            spi_clock <= '1';
             counter <= 0;
         end if;   
+    end if;
+    if (btnD = '1' or (btnL = '1' and reset_n = '1')) then
+        spi_clock <= clk;
     end if;
 end process;
 end Behavioral;
