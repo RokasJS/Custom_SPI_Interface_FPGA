@@ -13,7 +13,6 @@ begin
 -- vartotojo iterptas tekstas (pradžia)
 with Value(3 downto 0) select
 Segments <=
---hgfedcba
 "0000001" when x"0" ,
 "1001111" when x"1" ,
 "0010010" when x"2" ,
@@ -25,6 +24,5 @@ Segments <=
 "0000000" when x"8" ,
 "0000100" when x"9" ,
 "0111000" when others;
--- vartotojo iterptas tekstas (pabaiga)
 
 end Behavioral;
