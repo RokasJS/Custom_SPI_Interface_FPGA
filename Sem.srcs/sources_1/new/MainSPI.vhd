@@ -12,9 +12,11 @@ port (
     );
 end MainSPI;
 architecture Behavioral of MainSPI is
-
+    signal packet_1 :std_logic_vector(7 downto 0) := "00000001";
+    signal packet_2 :std_logic_vector(7 downto 0) := "00000010";
 begin
-    
+    packet_1(7 downto 4) <= sw(3 downto 0);
+    packet_2(7 downto 4) <= sw(3 downto 0);
 process (clk)
 begin
     if (clk'event and clk = '1') then
