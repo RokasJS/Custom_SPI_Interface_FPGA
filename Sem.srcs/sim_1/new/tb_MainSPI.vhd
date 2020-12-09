@@ -55,7 +55,7 @@ begin
             btnL <= '1';
         end if; 
         if i = 64 then
-            reset_n <= '0';
+            reset_n <= '1';
             btnL <= '0';
         end if; 
         wait for 10 ns; 
