@@ -13,7 +13,9 @@ architecture tb of tb_MainSPI is
               reset_n : in std_logic;
               btnD    : in std_logic;
               spi_bit : out std_logic;
-              spi_clock : out std_logic);
+              spi_clock : out std_logic;
+              spi_bit_RX : in std_logic;
+              RX_Data : out std_logic_vector(15 downto 0));
     end component;
 
     signal clk     : std_logic;
@@ -23,6 +25,8 @@ architecture tb of tb_MainSPI is
     signal btnD    : std_logic;
     signal spi_bit : std_logic;
     signal spi_clock : std_logic;
+    signal spi_bit_RX : std_logic;
+    signal RX_Data : std_logic_vector(15 downto 0);
 begin
 
     dut : MainSPI
@@ -32,7 +36,9 @@ begin
               reset_n => reset_n,
               btnD    => btnD,
               spi_clock => spi_clock,
-              spi_bit => spi_bit);
+              spi_bit => spi_bit,
+              spi_bit_RX => spi_bit_RX,
+              RX_Data => RX_Data);
 
     stimuli : process
     
@@ -43,9 +49,11 @@ begin
         btnL <= '0';
         reset_n <= '0';
         btnD <= '0';
+        spi_bit_RX <= '0';
         
         -- EDIT Add stimuli here
         for i in 0 to 100 loop
+        spi_bit_RX <= spi_bit;
         if i = 6 then
             btnD <= '1';
         end if;

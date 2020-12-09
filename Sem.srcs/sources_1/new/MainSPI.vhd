@@ -12,7 +12,9 @@ port (
     reset_n : in std_logic;
     btnD : in std_logic;
     spi_bit : out std_logic;
-    spi_clock : out std_logic
+    spi_clock : out std_logic;
+    spi_bit_RX : in std_logic;
+    RX_Data : out std_logic_vector(15 downto 0)
     );
 end MainSPI;
 
@@ -20,17 +22,21 @@ architecture Behavioral of MainSPI is
     signal packet_1: std_logic_vector(7 downto 0);
     signal packet_2: std_logic_vector(7 downto 0);
     signal counter : integer := 0;
+    signal counter_RX : integer := 0;
     signal check : std_logic := '1';
+    --signal RX_Data : std_logic_vector(15 downto 0);
+    signal RX_Counter : integer := 0;
 begin
     packet_1(3 downto 0) <= "0001";
     packet_1(7 downto 4) <= sw(3 downto 0);
     packet_2(3 downto 0) <= "0010";
     packet_2(7 downto 4) <= sw(3 downto 0);
+    RX_Data(15 downto 0) <= "0000000000000000";
 process (clk)
 begin
     if falling_edge(clk) then
         if btnD = '1' then
-        spi_bit <= packet_1(counter);
+            spi_bit <= packet_1(counter);
             case counter is 
                 when 7 => counter <= 0;
                 when others => counter <= counter+1;
@@ -51,4 +57,24 @@ begin
         spi_clock <= clk;
     end if;
 end process;
+
+process(clk) 
+begin
+    if rising_edge(clk) then
+        if (btnD = '1' or (btnL = '1' and reset_n = '1')) then
+            case spi_bit_RX is
+                when '0' => RX_Data(counter_RX) <= '0';
+                when others => RX_Data(counter_RX) <= '1';
+            end case;
+            case counter_RX is 
+                when 15 => counter_RX <= 0;
+                when others => counter_RX <= counter_RX+1;
+            end case;
+            else
+                counter_RX <= 0;
+            end if;
+    end if;
+end process;
+
+
 end Behavioral;
