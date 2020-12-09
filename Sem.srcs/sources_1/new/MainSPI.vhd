@@ -19,6 +19,7 @@ architecture Behavioral of MainSPI is
     signal packet_1: std_logic_vector(7 downto 0);
     signal packet_2: std_logic_vector(7 downto 0);
     signal counter : integer := 0;
+    signal check : std_logic_vector(1 downto 0) := "11";
 begin
     packet_1(3 downto 0) <= "0001";
     packet_1(7 downto 4) <= sw(3 downto 0);
@@ -28,11 +29,15 @@ process (clk)
 begin
     if falling_edge(clk) then
         if btnD = '1' then
-            spi_bit <= packet_1(counter);
-            case counter is 
-                when 7 => counter <= 0;
-                when others => counter <= counter+1;
-            end case;
+            if check(0) = '1' then
+                spi_bit <= packet_1(counter);
+                case counter is 
+                    when 7 => counter <= 0;
+                    when others => counter <= counter+1;
+                end case;
+            else 
+                 
+            end if;
         elsif (reset_n = '1' and btnL = '1') then
             spi_bit <= packet_2(counter);
             case counter is 

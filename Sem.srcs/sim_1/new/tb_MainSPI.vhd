@@ -43,11 +43,17 @@ begin
         btnD <= '0';
         
         -- EDIT Add stimuli here
-        for i in 0 to 50 loop
+        for i in 0 to 60 loop
         if i = 6 then
             btnD <= '1';
         end if;
-          
+        if i = 25 then
+            btnD <= '0';
+        end if;
+        if i = 30 then
+            reset_n <= '1';
+            btnL <= '1';
+        end if; 
         wait for 10 ns; 
         clk <= not clk; 
         end loop;   
