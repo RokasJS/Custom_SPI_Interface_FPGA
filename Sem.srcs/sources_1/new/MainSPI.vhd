@@ -23,7 +23,7 @@ end MainSPI;
 
 architecture Behavioral of MainSPI is
     constant Period: integer := 50000; 
-    constant Period_2: integer := 50000000; 
+    constant Period_2: integer := 500; 
     signal delay :STD_LOGIC_VECTOR (31 downto 0) :=X"00000000";
     signal delay_2 :STD_LOGIC_VECTOR (31 downto 0) :=X"00000000";
     signal spi_bit : std_logic;
@@ -50,10 +50,11 @@ architecture Behavioral of MainSPI is
     end component;
 
 begin
-    packet_1(3 downto 0) <= "0001";
-    packet_1(7 downto 4) <= sw(3 downto 0);
-    packet_2(3 downto 0) <= "0010";
-    packet_2(7 downto 4) <= sw(3 downto 0);
+--    packet_1(3 downto 0) <= "0001";
+--    packet_1(7 downto 4) <= sw(3 downto 0);
+--    packet_2(3 downto 0) <= "0010";
+--    packet_2(7 downto 4) <= sw(3 downto 0);
+    packet_1(7 downto 0) <= sw (15 downto 8);
     
     LED_DISPLAY : LEDDisplayValue
  port map (
@@ -127,17 +128,20 @@ begin
         if btnD = '1' then
             if counter_RX = 7 then 
                 counter_RX <= 0;
+                if(RX_Data (7 downto 4) = sw (3 downto 0)) then
+                    RX_Dataa(3 downto 0) <= RX_Data(3 downto 0);
+                end if;
+            else
+                counter_RX <= counter_RX+1;
+            end if;
+         elsif (reset_n = '1' and btnL = '1') then
+            if counter_RX = 7 then 
+                counter_RX <= 0;
+                
                 RX_Dataa(7 downto 0) <= RX_Data(7 downto 0);
             else
                 counter_RX <= counter_RX+1;
             end if;
---         elsif (reset_n = '1' and btnL = '1') then
---            if counter_RX = 7 then 
---                counter_RX <= 0;
---                RX_Dataa(7 downto 0) <= RX_Data(7 downto 0);
---            else
---                counter_RX <= counter_RX+1;
---            end if;
         end if;
     end if;
 end process;
