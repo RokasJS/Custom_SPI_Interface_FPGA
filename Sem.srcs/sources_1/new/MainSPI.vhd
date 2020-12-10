@@ -11,7 +11,7 @@ port (
     led : out STD_LOGIC_VECTOR (15 downto 0);
     JA : out std_logic_vector (1 downto 0);
     JAA : in std_logic_vector (1 downto 0); 
-    sw : in STD_LOGIC_VECTOR (7 downto 0);
+    sw : in STD_LOGIC_VECTOR (15 downto 0);
     btnL : in std_logic;
     reset_n : in std_logic;
     btnD : in std_logic;
@@ -130,6 +130,8 @@ begin
                 counter_RX <= 0;
                 if(RX_Data (7 downto 4) = sw (3 downto 0)) then
                     RX_Dataa(3 downto 0) <= RX_Data(3 downto 0);
+                else
+                    RX_Dataa(3 downto 0) <= "0000";
                 end if;
             else
                 counter_RX <= counter_RX+1;

@@ -14,6 +14,7 @@ architecture Behavioral of LEDDisplayValue is
 -- vartotojo iterptas tekstas (pradžia)
 signal cnt: STD_LOGIC_VECTOR (31 downto 0):= X"00000000";
 signal SegmentsValue : STD_LOGIC_VECTOR (3 downto 0):=X"0";
+signal Vall : std_logic_vector (7 downto 0);
 -- Komponentø deklaravimas
  component LEDDisplaySymbol
  port (
@@ -24,6 +25,7 @@ end component;
 begin
 -- vartotojo iterptas tekstas (pradžia)
 -- Komponentø egzemplioriø kûrimas
+ 
  LED_SYMBOL : LEDDisplaySymbol
  port map (
  Value => SegmentsValue,
@@ -31,13 +33,22 @@ begin
 process (Clk)
 begin
  if (Clk'event and Clk = '1') then
+ case Value is
+    when "00001010" => Vall <= "00010000";
+    when "00001011" => Vall <= "00010001";
+    when "00001100" => Vall <= "00010010";
+    when "00001101" => Vall <= "00010011";
+    when "00001110" => Vall <= "00010100";
+    when "00001111" => Vall <= "00010101";
+    when others => Vall <= Value;
+ end case;
  if Cnt=X"00001000" then
  Cnt<=Cnt+1;
-SegmentsValue<=Value(3 downto 0);
+SegmentsValue<=Vall(3 downto 0);
  anodes <= "1110";
 elsif Cnt=X"00002000" then
  Cnt<=X"00000000";
-SegmentsValue<=Value(7 downto 4);
+SegmentsValue<=Vall(7 downto 4);
  anodes <= "1101";
 else
  Cnt<=Cnt+1;
