@@ -34,7 +34,7 @@ architecture Behavioral of MainSPI is
     signal counter_RX : integer := 0;
     signal counter_RXX : integer := 0;
     signal check : std_logic := '0';
-    signal RX_Data : std_logic_vector(7 downto 0) := "00000000";
+    signal RX_Data : std_logic_vector(15 downto 0) := "0000000000000000";
     signal RX_Dataa : std_logic_vector(7 downto 0) := "00000000";
     signal RX_Counter : integer := 0;
     signal spi_clock : std_logic := '1';
@@ -137,10 +137,16 @@ begin
                 counter_RX <= counter_RX+1;
             end if;
          elsif (reset_n = '1' and btnL = '1') then
-            if counter_RX = 7 then 
+            RX_Data(counter_RX) <= spi_bit_RX;
+            if counter_RX = 15 and (RX_Data (15 downto 0) /= "0000000000000000") then 
                 counter_RX <= 0;
-                
-                RX_Dataa(7 downto 0) <= RX_Data(7 downto 0);
+                if(RX_Data (15 downto 12) = sw (3 downto 0)) then
+                    led(11 downto 0) <= RX_Data(11 downto 0);
+                else
+                    led(11 downto 0) <= "000000000000";
+                end if;
+            elsif RX_Data (15 downto 0) = "0000000000000000" then
+                counter_RX <= 0;
             else
                 counter_RX <= counter_RX+1;
             end if;
@@ -152,7 +158,6 @@ JA(0) <= spi_bit;
 JA(1) <= spi_clock nand allow;
 spi_clock_RX <= JAA(0);
 spi_bit_RX <= JAA(1);
-led(7 downto 0) <= RX_Dataa(7 downto 0);
 --spi_bit_RX <= spi_bit;
 
 end Behavioral;
