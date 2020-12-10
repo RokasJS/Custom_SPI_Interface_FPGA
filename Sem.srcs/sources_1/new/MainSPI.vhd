@@ -9,13 +9,13 @@ port (
     clk : in STD_LOGIC;
     segment: out STD_LOGIC_VECTOR (6 downto 0);
     led : out STD_LOGIC_VECTOR (15 downto 0);
-    JA : out std_logic_vector (7 downto 0); 
+    JA : out std_logic_vector (1 downto 0);
+    JAA : in std_logic_vector (1 downto 0); 
     sw : in STD_LOGIC_VECTOR (3 downto 0);
     btnL : in std_logic;
     reset_n : in std_logic;
-    btnD : in std_logic
-    
---    
+    btnD : in std_logic;
+    anodes : out STD_LOGIC_VECTOR (3 downto 0)
 --    spi_bit_RX : inout std_logic;
 --    RX_Data : inout std_logic_vector(7 downto 0)
     );
@@ -27,20 +27,39 @@ architecture Behavioral of MainSPI is
     signal delay :STD_LOGIC_VECTOR (31 downto 0) :=X"00000000";
     signal delay_2 :STD_LOGIC_VECTOR (31 downto 0) :=X"00000000";
     signal spi_bit : std_logic;
+    signal spi_bit_RX : std_logic;
     signal packet_1: std_logic_vector(7 downto 0);
     signal packet_2: std_logic_vector(7 downto 0);
     signal counter : integer := 0;
     signal counter_RX : integer := 0;
     signal counter_RXX : integer := 0;
     signal check : std_logic := '0';
+    signal RX_Data : std_logic_vector(7 downto 0) := "00000000";
     signal RX_Dataa : std_logic_vector(7 downto 0) := "00000000";
     signal RX_Counter : integer := 0;
     signal spi_clock : std_logic := '1';
+    signal spi_clock_RX : std_logic := '1';
+    
+    component LEDDisplayValue
+     port (
+        Clk : in STD_LOGIC;
+        Value : in STD_LOGIC_VECTOR (7 downto 0);
+        Segments : out STD_LOGIC_VECTOR (6 downto 0);
+        anodes : out STD_LOGIC_VECTOR (3 downto 0));
+    end component;
+
 begin
     packet_1(3 downto 0) <= "0001";
     packet_1(7 downto 4) <= sw(3 downto 0);
     packet_2(3 downto 0) <= "0010";
     packet_2(7 downto 4) <= sw(3 downto 0);
+    
+    LED_DISPLAY : LEDDisplayValue
+ port map (
+    Clk => clk,
+    Value => RX_Dataa,
+    Segments => segment,
+    anodes => anodes);
     
 process (clk)
 begin
@@ -61,6 +80,7 @@ begin
                     if counter = 7 then
                         counter <= 0;
                         check <= '0';
+                        spi_bit <= '0'; --pridejau
                     else
                         counter <= counter + 1;
                     end if;
@@ -86,27 +106,39 @@ begin
     end if;
 end process;
 
---process(clk,spi_clock) 
---begin
---    if rising_edge(clk) then
---        if (btnD = '0' and btnL = '0' and reset_n = '0') then
---            counter_RX <= 0;
---            RX_Dataa(7 downto 0) <= "00000000";
---        end if;
---    end if;
---    if rising_edge(spi_clock) then
---        if (btnD = '1' or (btnL = '1' and reset_n = '1')) then
---        RX_Dataa(counter_RX) <= spi_bit_RX;
---        case counter_RX is 
---            when 7 => counter_RX <= 0;
---            when others => counter_RX <= counter_RX+1;
---        end case;
---        end if;
---    end if;
---end process;
+process(clk,spi_clock_RX) 
+begin
+    if rising_edge(clk) then
+        if (btnD = '0' and btnL = '0' and reset_n = '0') then
+            counter_RX <= 0;
+            --RX_Data(7 downto 0) <= "00000000";
+        end if;
+    end if;
+    if rising_edge(spi_clock_RX) then
+        RX_Data(counter_RX) <= spi_bit_RX;
+        if btnD = '1' then
+            if counter_RX = 7 then 
+                counter_RX <= 0;
+                RX_Dataa(7 downto 0) <= RX_Data(7 downto 0);
+            else
+                counter_RX <= counter_RX+1;
+            end if;
+         elsif (reset_n = '1' and btnL = '1') then
+            if counter_RX = 7 then 
+                counter_RX <= 0;
+                RX_Dataa(7 downto 0) <= RX_Data(7 downto 0);
+            else
+                counter_RX <= counter_RX+1;
+            end if;
+        end if;
+    end if;
+end process;
+
 JA(0) <= spi_bit;
 JA(1) <= spi_clock;
-JA(2) <= clk;
+spi_clock_RX <= JAA(0);
+spi_bit_RX <= JAA(1);
+led(7 downto 0) <= RX_Dataa(7 downto 0);
 --spi_bit_RX <= spi_bit;
---RX_Data(7 downto 0) <= RX_Dataa(7 downto 0);
+
 end Behavioral;
