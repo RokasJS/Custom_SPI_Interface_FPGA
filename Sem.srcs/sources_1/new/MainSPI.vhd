@@ -14,7 +14,7 @@ port (
     spi_bit : inout std_logic;
     spi_clock : inout std_logic;
     spi_bit_RX : inout std_logic;
-    RX_Data : inout std_logic_vector(15 downto 0)
+    RX_Data : inout std_logic_vector(7 downto 0)
     );
 end MainSPI;
 
@@ -25,7 +25,7 @@ architecture Behavioral of MainSPI is
     signal counter_RX : integer := 0;
     signal counter_RXX : integer := 0;
     signal check : std_logic := '1';
-    signal RX_Dataa : std_logic_vector(15 downto 0) := "0000000000000000";
+    signal RX_Dataa : std_logic_vector(7 downto 0) := "00000000";
     signal RX_Counter : integer := 0;
 begin
     packet_1(3 downto 0) <= "0001";
@@ -59,16 +59,24 @@ begin
     end if;
 end process;
 
-process(spi_clock) 
+process(clk,spi_clock) 
 begin
+    if rising_edge(clk) then
+        if (btnD = '0' and btnL = '0' and reset_n = '0') then
+            counter_RX <= 0;
+            RX_Dataa(7 downto 0) <= "00000000";
+        end if;
+    end if;
     if rising_edge(spi_clock) then
+        if (btnD = '1' or (btnL = '1' and reset_n = '1')) then
         RX_Dataa(counter_RX) <= spi_bit_RX;
         case counter_RX is 
             when 7 => counter_RX <= 0;
             when others => counter_RX <= counter_RX+1;
         end case;
+        end if;
     end if;
 end process;
 spi_bit_RX <= spi_bit;
-RX_Data(15 downto 0) <= RX_Dataa(15 downto 0);
+RX_Data(7 downto 0) <= RX_Dataa(7 downto 0);
 end Behavioral;
