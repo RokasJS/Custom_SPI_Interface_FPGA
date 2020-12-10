@@ -11,7 +11,7 @@ port (
     led : out STD_LOGIC_VECTOR (15 downto 0);
     JA : out std_logic_vector (1 downto 0);
     JAA : in std_logic_vector (1 downto 0); 
-    sw : in STD_LOGIC_VECTOR (3 downto 0);
+    sw : in STD_LOGIC_VECTOR (7 downto 0);
     btnL : in std_logic;
     reset_n : in std_logic;
     btnD : in std_logic;
@@ -39,6 +39,7 @@ architecture Behavioral of MainSPI is
     signal RX_Counter : integer := 0;
     signal spi_clock : std_logic := '1';
     signal spi_clock_RX : std_logic := '1';
+    signal allow : std_logic := '0';
     
     component LEDDisplayValue
      port (
@@ -61,13 +62,26 @@ begin
     Segments => segment,
     anodes => anodes);
     
-process (clk)
+process(clk, spi_clock)
 begin
-    if falling_edge(clk) then
+    if (clk'event and clk = '1') then
         if delay=CONV_STD_LOGIC_VECTOR(Period,32) then
             delay<=X"00000000";
+            spi_clock <= not spi_clock;
+        else
+            delay <= delay + 1;
+        end if;
+     
+     
+     
+     end if;
+end process;
+        
+process (spi_clock)
+begin
+    if falling_edge(spi_clock) then
             if btnD = '1' then
-                spi_clock <= not spi_clock;
+                allow <= '1';
                 spi_bit <= packet_1(counter);
                 case counter is 
                     when 7 => counter <= 0;
@@ -75,25 +89,21 @@ begin
                 end case; 
             elsif (reset_n = '1' and btnL = '1') then
                 if check = '1' then
-                    spi_clock <= not spi_clock;
+                    allow <= '1';
                     spi_bit <= packet_2(counter);
                     if counter = 7 then
                         counter <= 0;
                         check <= '0';
-                        spi_bit <= '0'; --pridejau
                     else
                         counter <= counter + 1;
                     end if;
                 end if;
             else
                 spi_bit <= '0';
-                spi_clock <= '1';
                 counter <= 0;
+                allow <= '0';
             end if;
-        else
-            delay <= delay + 1;
-        end if;
-        if (reset_n = '1' and btnL = '1') then
+            if (reset_n = '1' and btnL = '1') then
             if delay_2=CONV_STD_LOGIC_VECTOR(Period_2,32) then
                 delay_2<=X"00000000"; 
                 check <= '1';        
@@ -101,8 +111,6 @@ begin
                 delay_2<=delay_2+1;
             end if;
         end if;
-            
-    
     end if;
 end process;
 
@@ -123,19 +131,19 @@ begin
             else
                 counter_RX <= counter_RX+1;
             end if;
-         elsif (reset_n = '1' and btnL = '1') then
-            if counter_RX = 7 then 
-                counter_RX <= 0;
-                RX_Dataa(7 downto 0) <= RX_Data(7 downto 0);
-            else
-                counter_RX <= counter_RX+1;
-            end if;
+--         elsif (reset_n = '1' and btnL = '1') then
+--            if counter_RX = 7 then 
+--                counter_RX <= 0;
+--                RX_Dataa(7 downto 0) <= RX_Data(7 downto 0);
+--            else
+--                counter_RX <= counter_RX+1;
+--            end if;
         end if;
     end if;
 end process;
 
 JA(0) <= spi_bit;
-JA(1) <= spi_clock;
+JA(1) <= spi_clock nand allow;
 spi_clock_RX <= JAA(0);
 spi_bit_RX <= JAA(1);
 led(7 downto 0) <= RX_Dataa(7 downto 0);
