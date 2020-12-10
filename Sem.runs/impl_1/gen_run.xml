@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1607636509">
+=======
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1607637015">
+>>>>>>> Working
   <File Type="BITSTR-BMM" Name="MainSPI_bd.bmm"/>
   <File Type="OPT-METHODOLOGY-DRC" Name="MainSPI_methodology_drc_opted.rpt"/>
   <File Type="INIT-TIMING" Name="MainSPI_timing_summary_init.rpt"/>

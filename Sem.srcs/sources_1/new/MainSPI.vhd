@@ -51,12 +51,21 @@ architecture Behavioral of MainSPI is
     end component;
 
 begin
+<<<<<<< HEAD
 --    packet_1(3 downto 0) <= "0001";
 --    packet_1(7 downto 4) <= sw(3 downto 0);
 --    packet_2(3 downto 0) <= "0010";
 --    packet_2(7 downto 4) <= sw(3 downto 0);
     packet_1(7 downto 0) <= sw (15 downto 8);
     packet_2(15 downto 0) <= "1101001111011011";
+=======
+    packet_1(3 downto 0) <= "0001";
+    packet_1(7 downto 4) <= sw(3 downto 0);
+    packet_2(3 downto 0) <= "0010";
+    packet_2(7 downto 4) <= sw(3 downto 0);
+--    packet_1(7 downto 0) <= sw (15 downto 8);
+    
+>>>>>>> Working
     LED_DISPLAY : LEDDisplayValue
  port map (
     Clk => clk,

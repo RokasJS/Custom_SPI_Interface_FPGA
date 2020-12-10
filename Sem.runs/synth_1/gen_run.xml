@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1607636509">
+=======
+<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1607637015">
+>>>>>>> Working
   <File Type="PA-TCL" Name="MainSPI.tcl"/>
   <File Type="RDS-PROPCONSTRS" Name="MainSPI_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="MainSPI_reports.tcl"/>
