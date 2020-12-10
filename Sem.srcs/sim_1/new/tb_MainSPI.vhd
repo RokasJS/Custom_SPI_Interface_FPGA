@@ -12,10 +12,10 @@ architecture tb of tb_MainSPI is
               btnL    : in std_logic;
               reset_n : in std_logic;
               btnD    : in std_logic;
-              spi_bit : out std_logic;
-              spi_clock : out std_logic;
-              spi_bit_RX : in std_logic;
-              RX_Data : out std_logic_vector(15 downto 0));
+              spi_bit : inout std_logic;
+              spi_clock : inout std_logic;
+              spi_bit_RX : inout std_logic;
+              RX_Data : inout std_logic_vector(15 downto 0));
     end component;
 
     signal clk     : std_logic;
@@ -49,11 +49,11 @@ begin
         btnL <= '0';
         reset_n <= '0';
         btnD <= '0';
-        spi_bit_RX <= '0';
+        --spi_bit_RX <= '0';
         
         -- EDIT Add stimuli here
         for i in 0 to 100 loop
-        spi_bit_RX <= spi_bit;
+        --spi_bit_RX <= spi_bit;
         if i = 6 then
             btnD <= '1';
         end if;
