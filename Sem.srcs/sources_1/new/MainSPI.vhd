@@ -29,13 +29,14 @@ architecture Behavioral of MainSPI is
     signal spi_bit : std_logic;
     signal spi_bit_RX : std_logic;
     signal packet_1: std_logic_vector(7 downto 0);
-    signal packet_2: std_logic_vector(7 downto 0);
+    signal packet_2: std_logic_vector(15 downto 0);
     signal counter : integer := 0;
     signal counter_RX : integer := 0;
     signal counter_RXX : integer := 0;
     signal check : std_logic := '0';
-    signal RX_Data : std_logic_vector(7 downto 0) := "00000000";
+    signal RX_Data : std_logic_vector(15 downto 0) := "0000000000000000";
     signal RX_Dataa : std_logic_vector(7 downto 0) := "00000000";
+    signal RX_Dataaa : std_logic_vector(15 downto 0) := "0000000000000000";
     signal RX_Counter : integer := 0;
     signal spi_clock : std_logic := '1';
     signal spi_clock_RX : std_logic := '1';
@@ -55,11 +56,11 @@ begin
 --    packet_2(3 downto 0) <= "0010";
 --    packet_2(7 downto 4) <= sw(3 downto 0);
     packet_1(7 downto 0) <= sw (15 downto 8);
-    
+    packet_2(15 downto 0) <= "1101001111011011";
     LED_DISPLAY : LEDDisplayValue
  port map (
     Clk => clk,
-    Value => RX_Dataa,
+    Value => RX_Dataa (7 downto 0),
     Segments => segment,
     anodes => anodes);
     
@@ -72,9 +73,6 @@ begin
         else
             delay <= delay + 1;
         end if;
-     
-     
-     
      end if;
 end process;
         
@@ -92,7 +90,7 @@ begin
                 if check = '1' then
                     allow <= '1';
                     spi_bit <= packet_2(counter);
-                    if counter = 7 then
+                    if counter = 15 then
                         counter <= 0;
                         check <= '0';
                     else
@@ -137,10 +135,14 @@ begin
                 counter_RX <= counter_RX+1;
             end if;
          elsif (reset_n = '1' and btnL = '1') then
-            if counter_RX = 7 then 
+            if counter_RX = 15 then 
                 counter_RX <= 0;
                 
-                RX_Dataa(7 downto 0) <= RX_Data(7 downto 0);
+                if(RX_Data (15 downto 12) = sw (15 downto 12)) then
+                RX_Dataaa(11 downto 0) <= RX_Data(11 downto 0);
+                else
+                    RX_Dataaa(11 downto 0) <= "000000000000";
+                end if;
             else
                 counter_RX <= counter_RX+1;
             end if;
@@ -152,7 +154,7 @@ JA(0) <= spi_bit;
 JA(1) <= spi_clock nand allow;
 spi_clock_RX <= JAA(0);
 spi_bit_RX <= JAA(1);
-led(7 downto 0) <= RX_Dataa(7 downto 0);
+led(11 downto 0) <= RX_Dataaa(11 downto 0);
 --spi_bit_RX <= spi_bit;
 
 end Behavioral;
