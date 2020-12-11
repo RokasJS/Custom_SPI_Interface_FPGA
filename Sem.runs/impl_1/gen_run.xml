@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1607636509">
-=======
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1607637015">
->>>>>>> Working
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1607643650">
   <File Type="BITSTR-BMM" Name="MainSPI_bd.bmm"/>
   <File Type="OPT-METHODOLOGY-DRC" Name="MainSPI_methodology_drc_opted.rpt"/>
   <File Type="INIT-TIMING" Name="MainSPI_timing_summary_init.rpt"/>
@@ -88,6 +84,24 @@
       </FileInfo>
     </File>
     <File Path="$PSRCDIR/sources_1/new/MainSPI.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/Clock_Divider.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/TX_Packet.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/RX_Packet.vhd">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>

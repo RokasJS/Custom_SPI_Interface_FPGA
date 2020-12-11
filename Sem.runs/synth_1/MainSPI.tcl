@@ -34,6 +34,9 @@ read_vhdl -library xil_defaultlib {
   C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.srcs/sources_1/new/LEDDisplaySymbol.vhd
   C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.srcs/sources_1/new/LEDDisplayValue.vhd
   C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.srcs/sources_1/new/MainSPI.vhd
+  C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.srcs/sources_1/new/Clock_Divider.vhd
+  C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.srcs/sources_1/new/TX_Packet.vhd
+  C:/Users/djrok/Documents/Custom_SPI_Interface_FPGA/Sem.srcs/sources_1/new/RX_Packet.vhd
 }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
